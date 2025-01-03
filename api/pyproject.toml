@@ -19,6 +19,11 @@ aiokafka = "^0.11.0"
 redis = "^5.0.8"
 loguru = "^0.7.2"
 python-dotenv = "^1.0.1"
+passlib = "^1.7.4"
+python-jose = "^3.3.0"
+pyjwt = "^2.10.1"
+email-validator = "^2.2.0"
+python-multipart = "^0.0.20"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.6.4"

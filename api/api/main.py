@@ -1,8 +1,6 @@
-from loguru import logger
-from .api import app
 import uvicorn
+from .api import app
 
 
 def run() -> None:
-    logger.debug('Start run')
     uvicorn.run(app, host='0.0.0.0', port=8000)

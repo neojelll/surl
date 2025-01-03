@@ -50,5 +50,28 @@ class Cache:
         except Exception as e:
             logger.error(f'Error when set in cache: {e}')
 
+    async def create_recording_with_refresh(self, username, refresh_token):
+        logger.debug(
+            f'Start create recording with refresh token to cache with params: {username}, {refresh_token}'
+        )
+        try:
+            await self.cache.set(refresh_token, username, ex=3600 * 24 * 7)
+            logger.debug('Create recording with refresh token was successful')
+        except Exception as e:
+            logger.error(
+                f'Error when create recording with refresh token to cache: {e}'
+            )
+
+    async def check_refresh_token(self, refresh_token):
+        logger.debug(f'Start check refresh token in cache with params: {refresh_token}')
+        try:
+            return_value = await self.cache.get(refresh_token)
+            logger.debug(
+                f'Check refresh token in cache was successful, return value: {return_value}'
+            )
+            return return_value
+        except Exception as e:
+            logger.error(f'Error when check refresh token in cache: {e}')
+
     async def __aexit__(self, exc_type, exc_value, traceback) -> None:
         await self.cache.aclose()
