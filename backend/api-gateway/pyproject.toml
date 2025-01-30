@@ -1,0 +1,19 @@
+[project]
+name = "api-gateway"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "neojelll", email = "timofejmitusin60892@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.8",
+    "strawberry-graphql[debug-server]>=0.258.0",
+]
+
+[project.scripts]
+api-gateway = "api_gateway:api"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
