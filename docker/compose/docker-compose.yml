@@ -1,12 +1,21 @@
 services:
+  api-gateway:
+    build:
+      context: ../../
+      dockerfile: docker/api-gateway.Dockerfile
+    ports:
+      - '15015:15015'
+    env_file:
+      - ../../.env
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
     ports:
-      - "2181:2181"
+      - '2181:2181'
     healthcheck:
-      test: ["CMD", "echo", "test"]
+      test: ['CMD', 'echo', 'test']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -19,14 +28,21 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9094
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:9094
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
       KAFKA_REPLICATION_FACTOR: 1
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
-      - "9092:9092"
-      - "9094:9094"
+      - '9092:9092'
+      - '9094:9094'
     healthcheck:
-      test: ["CMD", "kafka-topics", "--list", "--bootstrap-server", "localhost:9092"]
+      test:
+        [
+          'CMD',
+          'kafka-topics',
+          '--list',
+          '--bootstrap-server',
+          'localhost:9092',
+        ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -39,7 +55,7 @@ services:
     volumes:
       - redis_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -52,7 +68,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./initdb.d:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U neojelll"]
+      test: ['CMD-SHELL', 'pg_isready -U neojelll']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -60,7 +76,7 @@ services:
   api:
     image: ghcr.io/neojelll/url-shortener-api:latest
     ports:
-      - "8000:8000"
+      - '8000:8000'
     env_file:
       - ./.env
     depends_on:
